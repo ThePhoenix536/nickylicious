@@ -1,27 +1,27 @@
-# Nickylicious Catering
+# 🍴 Nickylicious Catering - ¡Bienvenido!
 
-![Nickylicious Logo](images/logo.png)
+Esta es la página web oficial de **Nickylicious**, diseñada para ofrecer una experiencia elegante y moderna de catering en Nueva York.
 
-Una experiencia culinaria premium en Nueva York. Nickylicious combina la elegancia del catering de alta gama con un diseño web cinemático y minimalista.
-
-## Características
-- 🚀 **Preloader de alta velocidad**: Animación suave y rápida del logo al cargar.
-- 🌍 **Multi-lenguaje**: Soporte completo para ES, EN, PT, IT, FR, JA, KO.
-- 📱 **Diseño Responsive**: Optimizado para dispositivos móviles y escritorio.
-- 💬 **Integración con WhatsApp**: Comunicación directa con el equipo de Nickylicious.
-- ✨ **Animaciones GSAP**: Capas cinemáticas y efectos de scroll premium.
-
-## Tecnologías Utilizadas
-- HTML5 / CSS3 (Vanilla)
-- JavaScript (ES6+)
-- GSAP (GreenSock Animation Platform)
-
-## Cómo empezar
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/usuario/nickylicious.git
-   ```
-2. Abre `index.html` en tu navegador favorito.
+## 🌟 ¿Qué hace especial a este sitio?
+- **Diseño de Lujo**: Colores y animaciones que se sienten como una película.
+- **Varios Idiomas**: Funciona en español, inglés, portugués, italiano, francés, japonés y coreano.
+- **Fácil Contacto**: Botón directo para hablar por WhatsApp.
 
 ---
-*Diseñado con ❤️ para Nickylicious Catering.*
+
+## 🚀 Cómo ver la página en tu computadora
+No necesitas saber programar para abrir este proyecto. Sigue estos pasos:
+
+1. **Descarga el proyecto**: Si tienes una carpeta con todos estos archivos, ábrela.
+2. **Busca el archivo principal**: Busca un archivo que se llama `index.html`.
+3. **¡Haz doble clic!**: Se abrirá automáticamente en tu navegador (como Chrome o Edge) y podrás navegar por la página.
+
+---
+
+## 🛠️ Para los que quieren saber un poco más
+Aunque no seas programador, aquí te cuento qué usamos para que se vea así de bien:
+- **HTML y CSS**: Son los cimientos y la "pintura" de la casa.
+- **JavaScript**: Es lo que hace que los botones y las animaciones se muevan.
+
+---
+*Hecho con cariño para que Nickylicious brille en la web.*
