@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nickylicious — Catering Artesanal para Eventos | Sabor que Reúne Personas</title>
+  <meta name="description" content="Nickylicious ofrece catering artesanal premium para eventos corporativos y sociales. Picaderas, charcutería gourmet, postres personalizados y menús especiales. ¡Solicita tu cotización!">
+  <meta name="keywords" content="artisan catering, events, appetizers, charcuterie, custom desserts, corporate catering, wedding catering, New York">
+  <meta name="author" content="Nickylicious">
+  <meta property="og:title" content="Nickylicious — Catering Artesanal para Eventos">
+  <meta property="og:description" content="Sabor que reúne personas. Catering artesanal premium para tus eventos más importantes.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="images/Favicon.png">
+</head>
+<body>
+  <!-- ==================== PRELOADER ==================== -->
+  <div id="preloader" class="preloader">
+    <video id="preloaderVideo" autoplay muted playsinline disablePictureInPicture>
+      <source src="images/Nickylicious_logo_animation_202603250251.mp4" type="video/mp4">
+    </video>
+  </div>
+
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#hero" class="nav-logo">Nicky<span>licious</span></a>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">Nosotros</a>
+        <a href="#catalog">Catálogo</a>
+        <a href="#process">Proceso</a>
+        <a href="#gallery">Galería</a>
+        <a href="#testimonials">Reseñas</a>
+        <a href="#contact">Contacto</a>
+        <a href="#quote" class="btn btn-primary btn-sm nav-cta">Cotizar</a>
+      </div>
+      <!-- Custom Lang Switcher -->
+      <div class="custom-lang-switcher" id="customLangSwitcher">
+        <div class="lang-switcher-btn" id="langSwitcherBtn" aria-label="Cambiar idioma" title="Switch Language">
+          <span class="lang-globe">🌐</span>
+          <span class="lang-current" id="langCurrent">ES</span>
+        </div>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-option" data-value="es">ES - Español</button>
+          <button class="lang-option" data-value="en">EN - English</button>
+          <button class="lang-option" data-value="pt">PT - Português</button>
+          <button class="lang-option" data-value="it">IT - Italiano</button>
+          <button class="lang-option" data-value="fr">FR - Français</button>
+          <button class="lang-option" data-value="ja">JA - 日本語</button>
+          <button class="lang-option" data-value="ko">KO - 한국어</button>
+        </div>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content reveal">
+      <span class="hero-badge">🔥 Catering Artesanal Premium</span>
+      <h1 class="hero-title">
+        <span class="brand">Nickylicious</span>
+        Sabor que Reúne Personas
+      </h1>
+      <p class="hero-subtitle">Cada bocado cuenta una historia. Creamos experiencias gastronómicas artesanales para tus momentos más importantes — con el calor de lo hecho en casa y la calidad de un servicio profesional.</p>
+      <div class="hero-buttons">
+        <a href="#catalog" class="btn btn-primary">Ver Catálogo 🍽️</a>
+        <a href="#quote" class="btn btn-outline">Solicitar Cotización</a>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>Descubre</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ==================== SOBRE NOSOTROS ==================== -->
+  <section class="about section-pad" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-image reveal-left">
+          <img src="images/charcuteria.jpg" alt="Creaciones artesanales de Nickylicious" loading="lazy">
+        </div>
+        <div class="about-text reveal-right">
+          <div class="accent-line"></div>
+          <h2 class="about-title">About Us</h2>
+          <h3 class="about-tagline">Home Cooked Meals <span>&</span> Sweet Treats</h3>
+          <p class="about-desc">Nickylicious brings delicious finger food, Dominican sweet treats and global cuisine service to the New York area homes and venues. We create delicious and inspired dishes using only the freshest ingredients, emphasizing taste and exemplary style.</p>
+          <p class="about-desc">Talk to us about your next event. We are here to cater to your every need, making your life easier and more delicious all at once.</p>
+          <a href="#quote" class="btn btn-primary about-cta">Get a Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CATÁLOGO ==================== -->
+  <section class="catalog section-pad" id="catalog">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line"></div>
+        <h2 class="section-title">Nuestro Catálogo</h2>
+        <p class="section-subtitle">Del incontable al inolvidable — explora nuestras creaciones artesanales</p>
+      </div>
+      <div class="catalog-grid">
+
+        <!-- Picaderas -->
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="images/picaderas.jpg" alt="Picaderas artesanales" loading="lazy">
+            <span class="product-badge badge-express">⚡ Entrega 24-48h</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Picaderas Frías y Calientes</h3>
+            <p>Entrantes y bocadillos artesanales que abren cualquier evento con sabor. Mini empanadas, bruschettas, croquetas, y más — todos hechos con ingredientes frescos del día.</p>
+            <div class="product-price">
+              <span class="price">$150 <small>/ starting</small></span>
+              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Charcutería -->
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="images/charcuteria.jpg" alt="Tabla de charcutería gourmet" loading="lazy">
+            <span class="product-badge badge-express">⚡ Entrega 24-48h</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Tablas de Quesos y Charcutería</h3>
+            <p>Tablas gourmet armadas a mano con quesos artesanales, embutidos premium, frutas frescas, frutos secos y acompañamientos selectos. Perfectas para compartir en cualquier reunión.</p>
+            <div class="product-price">
+              <span class="price">$200 <small>/ starting</small></span>
+              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Postres -->
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="images/postres.jpg" alt="Postres personalizados" loading="lazy">
+            <span class="product-badge badge-express">⚡ Entrega 24-48h</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Postres y Dulces Personalizados</h3>
+            <p>Cakes decorados, cupcakes temáticos, shot desserts en vasitos de cristal, macarons y dulces de autor. Cada creación es un lienzo dulce diseñado para tu celebración.</p>
+            <div class="product-price">
+              <span class="price">$120 <small>/ starting</small></span>
+              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catering completo -->
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="images/catering.jpg" alt="Catering para eventos" loading="lazy">
+            <span class="product-badge badge-quote">📋 Cotización 1-2 semanas</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Catering para Eventos a Gran Escala</h3>
+            <p>Servicio completo de catering para bodas, galas, eventos corporativos y celebraciones de gran formato. Incluye montaje, servicio, vajilla y coordinación total del menú.</p>
+            <div class="product-price">
+              <span class="price">$900 <small>/ starting</small></span>
+              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Menús Especiales -->
+        <div class="product-card reveal">
+          <div class="product-card-img">
+            <img src="images/charcuteria.jpg" alt="Menús especiales y temáticos" loading="lazy">
+            <span class="product-badge badge-quote">📋 Cotización 1-2 semanas</span>
+          </div>
+          <div class="product-card-body">
+            <h3>Menús Especiales y Temáticos</h3>
+            <p>Opciones veganas, sin gluten, saludables y menús temáticos personalizados. Porque cada invitado merece disfrutar sin preocuparse — con el mismo sabor artesanal de Nickylicious.</p>
+            <div class="product-price">
+              <span class="price">$180 <small>/ starting</small></span>
+              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <p class="payment-note reveal">
+        <span>💳</span> Pagos aceptados: <span>Efectivo</span> o <span>tarjeta</span> contra entrega. Sin complicaciones.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==================== ¿CÓMO FUNCIONA? ==================== -->
+  <section class="process section-pad" id="process">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line"></div>
+        <h2 class="section-title">¿Cómo Funciona?</h2>
+        <p class="section-subtitle">Tu evento perfecto en 4 simples pasos</p>
+      </div>
+      <div class="process-steps">
+        <div class="step reveal">
+          <div class="step-icon">🍽️</div>
+          <div class="step-number">PASO 01</div>
+          <h3>Elige tu Producto</h3>
+          <p>Explora nuestro catálogo y selecciona lo que necesitas para tu evento.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-icon">📝</div>
+          <div class="step-number">PASO 02</div>
+          <h3>Solicita Cotización</h3>
+          <p>Completa el formulario o escríbenos por WhatsApp con los detalles.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-icon">✅</div>
+          <div class="step-number">PASO 03</div>
+          <h3>Confirmamos y Coordinamos</h3>
+          <p>Confirmamos tu pedido, acordamos detalles y preparamos todo con cariño.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-icon">🎉</div>
+          <div class="step-number">PASO 04</div>
+          <h3>¡Disfruta tu Evento!</h3>
+          <p>Entregamos puntualmente y tú solo te dedicas a disfrutar el momento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GALERÍA ==================== -->
+  <section class="gallery section-pad" id="gallery">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line"></div>
+        <h2 class="section-title">Nuestro Portafolio</h2>
+        <p class="section-subtitle">Momentos que cocinamos con amor — eventos que hablan por nosotros</p>
+      </div>
+      <div class="gallery-filters reveal">
+        <button class="gallery-filter active" data-filter="all">Todos</button>
+        <button class="gallery-filter" data-filter="corporativo">Corporativo</button>
+        <button class="gallery-filter" data-filter="social">Social</button>
+        <button class="gallery-filter" data-filter="postres">Postres</button>
+        <button class="gallery-filter" data-filter="catering">Catering Completo</button>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-item reveal" data-category="corporativo">
+          <img src="images/catering.jpg" alt="Evento corporativo" loading="lazy">
+          <div class="overlay">
+            <span>Evento Corporativo</span>
+            <small>Lanzamiento de producto</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="social">
+          <img src="images/picaderas.jpg" alt="Celebración social" loading="lazy">
+          <div class="overlay">
+            <span>Celebración Social</span>
+            <small>Boda íntima</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="postres">
+          <img src="images/postres.jpg" alt="Mesa de postres" loading="lazy">
+          <div class="overlay">
+            <span>Mesa de Postres</span>
+            <small>Bautizo elegante</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="catering">
+          <img src="images/hero-bg.jpg" alt="Catering completo" loading="lazy">
+          <div class="overlay">
+            <span>Catering Completo</span>
+            <small>Gala corporativa</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="social">
+          <img src="images/charcuteria.jpg" alt="Fiesta privada" loading="lazy">
+          <div class="overlay">
+            <span>Fiesta Privada</span>
+            <small>Cumpleaños sorpresa</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="corporativo">
+          <img src="images/catering.jpg" alt="Reunión empresarial" loading="lazy">
+          <div class="overlay">
+            <span>Reunión Empresarial</span>
+            <small>Brunch ejecutivo</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="postres">
+          <img src="images/postres.jpg" alt="Dulces personalizados" loading="lazy">
+          <div class="overlay">
+            <span>Dulces Personalizados</span>
+            <small>Mesa temática infantil</small>
+          </div>
+        </div>
+        <div class="gallery-item reveal" data-category="catering">
+          <img src="images/catering.jpg" alt="Servicio de buffet" loading="lazy">
+          <div class="overlay">
+            <span>Servicio de Buffet</span>
+            <small>Evento de 200 personas</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== TESTIMONIOS ==================== -->
+  <section class="testimonials section-pad" id="testimonials">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line"></div>
+        <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+        <p class="section-subtitle">Historias reales de eventos memorables</p>
+      </div>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card reveal">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote>"Nickylicious transformó nuestra boda en algo mágico. Los invitados no paraban de hablar de la comida — la tabla de charcutería fue un éxito total. Se nota que cada plato está hecho con amor real."</blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MR</div>
+            <div>
+              <h4>María Rodríguez</h4>
+              <p>Boda — 150 invitados</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote>"Contratamos a Nickylicious para el lanzamiento de nuestro producto y superaron todas las expectativas. Servicio puntual, presentación impecable y un sabor que dejó a todo el equipo impresionado."</blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">CG</div>
+            <div>
+              <h4>Carlos García</h4>
+              <p>Evento Corporativo — TechCorp</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal">
+          <div class="testimonial-quote">"</div>
+          <div class="testimonial-stars">★★★★★</div>
+          <blockquote>"Los cupcakes personalizados para el bautizo de mi hija fueron una obra de arte. Nicky entendió exactamente lo que quería y hasta me sorprendió con detalles extra. ¡100% recomendados!"</blockquote>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">LP</div>
+            <div>
+              <h4>Laura Pérez</h4>
+              <p>Bautizo — Mesa de dulces</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FORMULARIO COTIZACIÓN ==================== -->
+  <section class="quote-form-section section-pad" id="quote">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line"></div>
+        <h2 class="section-title">Solicita tu Cotización</h2>
+        <p class="section-subtitle">Cuéntanos sobre tu evento y creamos la propuesta perfecta para ti</p>
+      </div>
+      <form class="quote-form reveal" id="quoteForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Nombre Completo *</label>
+            <input type="text" id="name" name="name" placeholder="Tu nombre completo" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Teléfono / WhatsApp *</label>
+            <input type="tel" id="phone" name="phone" placeholder="(809) 000-0000" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Correo Electrónico *</label>
+            <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="eventType">Tipo de Evento *</label>
+            <select id="eventType" name="eventType" required>
+              <option value="" disabled selected>Selecciona el tipo de evento</option>
+              <option value="boda">Boda</option>
+              <option value="corporativo">Evento Corporativo</option>
+              <option value="bautizo">Bautizo</option>
+              <option value="cumpleaños">Cumpleaños</option>
+              <option value="fiesta">Fiesta / Celebración</option>
+              <option value="reunion">Reunión / Brunch</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="guests">Número de Personas Estimado *</label>
+            <input type="number" id="guests" name="guests" placeholder="Ej: 50" min="1" required>
+          </div>
+          <div class="form-group">
+            <label for="eventDate">Fecha del Evento *</label>
+            <input type="date" id="eventDate" name="eventDate" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Productos o Servicios de Interés</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="services" value="picaderas"> Picaderas Frías y Calientes
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="services" value="charcuteria"> Tablas de Quesos y Charcutería
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="services" value="postres"> Postres y Dulces Personalizados
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="services" value="catering"> Catering a Gran Escala
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="services" value="menus"> Menús Especiales y Temáticos
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="message">Mensaje Adicional / Necesidades Especiales</label>
+          <textarea id="message" name="message" placeholder="Cuéntanos más sobre tu evento, alergias alimentarias, preferencias especiales, temática, etc."></textarea>
+        </div>
+        <div class="form-submit">
+          <button type="submit" class="btn btn-primary">🔥 Quiero mi Cotización</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACTO ==================== -->
+  <section class="contact section-pad" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="accent-line"></div>
+        <h2 class="section-title">Contáctanos</h2>
+        <p class="section-subtitle">Estamos a un mensaje de hacer tu evento inolvidable</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info reveal-left">
+          <div class="contact-item">
+            <div class="contact-icon">📞</div>
+            <div>
+              <h4>Teléfono</h4>
+              <a href="tel:+13477362494">+1 (347) 736-2494</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">💬</div>
+            <div>
+              <h4>WhatsApp</h4>
+              <a href="https://wa.me/13477362494" target="_blank">+1 (347) 736-2494 — Escríbenos directo</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">✉️</div>
+            <div>
+              <h4>Correo Electrónico</h4>
+              <a href="mailto:Nickyliciousorders@gmail.com">Nickyliciousorders@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <h4>Ubicación</h4>
+              <p>New York, NY, USA</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <h4>Horario de Atención</h4>
+              <p>Lunes a Viernes: 8:00 AM — 6:00 PM</p>
+              <p>Sábados: 9:00 AM — 3:00 PM</p>
+            </div>
+          </div>
+        </div>
+        <div class="contact-map reveal-right">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387193.30596698663!2d-74.25986548248684!3d40.69714941932609!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Ubicación de Nickylicious">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" class="nav-logo">Nicky<span>licious</span></a>
+          <p>Sabor artesanal que reúne personas. Catering premium para tus momentos más especiales, con la calidez de lo hecho en casa.</p>
+        </div>
+        <div class="footer-col">
+          <h4>NAVEGACIÓN</h4>
+          <a href="#about">Nosotros</a>
+          <a href="#catalog">Catálogo</a>
+          <a href="#process">Proceso</a>
+          <a href="#gallery">Galería</a>
+          <a href="#testimonials">Reseñas</a>
+        </div>
+        <div class="footer-col">
+          <h4>SERVICIOS</h4>
+          <a href="#catalog">Picaderas</a>
+          <a href="#catalog">Charcutería</a>
+          <a href="#catalog">Postres</a>
+          <a href="#catalog">Catering</a>
+          <a href="#catalog">Menús Especiales</a>
+        </div>
+        <div class="footer-col">
+          <h4>CONTACTO</h4>
+          <a href="tel:+13477362494">📞 +1 (347) 736-2494</a>
+          <a href="mailto:Nickyliciousorders@gmail.com">✉️ Nickyliciousorders@gmail.com</a>
+          <a href="https://wa.me/13477362494" target="_blank">💬 WhatsApp</a>
+          <div class="footer-social">
+            <a href="https://www.instagram.com/nickylicious08?r=nametag" target="_blank" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Nickylicious. Todos los derechos reservados. Hecho con 🔥 y mucho amor.</p>
+        <p class="payment-info"><span>💳</span> Pagos: Efectivo o tarjeta contra entrega.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== WHATSAPP FLOAT ==================== -->
+  <a href="https://wa.me/13477362494?text=Hola%20Nickylicious!%20Me%20interesa%20solicitar%20información%20sobre%20sus%20servicios%20de%20catering."
+     class="whatsapp-float"
+     target="_blank"
+     aria-label="Contactar por WhatsApp"
+     id="whatsappFloat">
+    <div class="whatsapp-pulse"></div>
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <!-- ==================== POLICIES MODAL ==================== -->
+  <div class="policies-modal-overlay" id="policiesModal">
+    <div class="policies-modal">
+      <button class="policies-modal-close" id="policiesModalClose">&times;</button>
+      <h2 class="policies-modal-title">Políticas de Pedido</h2>
+      <p class="policies-modal-subtitle">Por favor lee antes de continuar</p>
+      <div class="policies-modal-list">
+        <div class="pm-item">
+          <span class="pm-bullet">1</span>
+          <p>Los pedidos deben realizarse con al menos <strong>1.5 semanas</strong> de anticipación.</p>
+        </div>
+        <div class="pm-item">
+          <span class="pm-bullet">2</span>
+          <p>Se requiere un depósito de <strong>$10 NO REEMBOLSABLE</strong> para confirmar tu orden.</p>
+        </div>
+        <div class="pm-item">
+          <span class="pm-bullet">3</span>
+          <p>Los pedidos deben pagarse en su totalidad <strong>antes de la fecha de entrega</strong>. Si no se recibe el pago, la orden no será válida.</p>
+        </div>
+        <div class="pm-item">
+          <span class="pm-bullet">4</span>
+          <p>NO aceptamos pedidos con contenido sexual explícito o relacionado con drogas.</p>
+        </div>
+        <div class="pm-item">
+          <span class="pm-bullet">5</span>
+          <p>Una vez recibida tu orden, no somos responsables por la misma.</p>
+        </div>
+        <div class="pm-item">
+          <span class="pm-bullet">6</span>
+          <p>No se realizan reembolsos una vez confirmada la orden.</p>
+        </div>
+        <div class="pm-item">
+          <span class="pm-bullet">7</span>
+          <p>Al realizar un pedido, sé lo más detallado/a posible o envía fotos de referencia.</p>
+        </div>
+      </div>
+      <div class="policies-modal-actions">
+        <button class="btn btn-secondary" id="policiesDecline">Cancelar</button>
+        <button class="btn btn-primary" id="policiesAccept">Acepto, Continuar a WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
