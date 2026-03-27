@@ -44,11 +44,7 @@
         <div class="lang-dropdown" id="langDropdown">
           <button class="lang-option" data-value="es">ES - Español</button>
           <button class="lang-option" data-value="en">EN - English</button>
-          <button class="lang-option" data-value="pt">PT - Português</button>
-          <button class="lang-option" data-value="it">IT - Italiano</button>
-          <button class="lang-option" data-value="fr">FR - Français</button>
-          <button class="lang-option" data-value="ja">JA - 日本語</button>
-          <button class="lang-option" data-value="ko">KO - 한국어</button>
+
         </div>
       </div>
       <button class="hamburger" id="hamburger" aria-label="Menú">
@@ -118,8 +114,15 @@
             <h3>Picaderas Frías y Calientes</h3>
             <p>Entrantes y bocadillos artesanales que abren cualquier evento con sabor. Mini empanadas, bruschettas, croquetas, y más — todos hechos con ingredientes frescos del día.</p>
             <div class="product-price">
-              <span class="price">$150 <small>/ starting</small></span>
-              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+              <span class="price">$150</span>
+              <div class="cart-controls">
+                <div class="qty-wrapper">
+                  <button type="button" class="qty-btn minus">-</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="1000" data-product="Picaderas Frías y Calientes">
+                  <button type="button" class="qty-btn plus">+</button>
+                </div>
+                <button class="btn btn-cart btn-sm" data-product="Picaderas Frías y Calientes" data-price="150">➕ Añadir</button>
+              </div>
             </div>
           </div>
         </div>
@@ -134,8 +137,15 @@
             <h3>Tablas de Quesos y Charcutería</h3>
             <p>Tablas gourmet armadas a mano con quesos artesanales, embutidos premium, frutas frescas, frutos secos y acompañamientos selectos. Perfectas para compartir en cualquier reunión.</p>
             <div class="product-price">
-              <span class="price">$200 <small>/ starting</small></span>
-              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+              <span class="price">$200</span>
+              <div class="cart-controls">
+                <div class="qty-wrapper">
+                  <button type="button" class="qty-btn minus">-</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="1000" data-product="Tablas de Quesos y Charcutería">
+                  <button type="button" class="qty-btn plus">+</button>
+                </div>
+                <button class="btn btn-cart btn-sm" data-product="Tablas de Quesos y Charcutería" data-price="200">➕ Añadir</button>
+              </div>
             </div>
           </div>
         </div>
@@ -150,8 +160,15 @@
             <h3>Postres y Dulces Personalizados</h3>
             <p>Cakes decorados, cupcakes temáticos, shot desserts en vasitos de cristal, macarons y dulces de autor. Cada creación es un lienzo dulce diseñado para tu celebración.</p>
             <div class="product-price">
-              <span class="price">$120 <small>/ starting</small></span>
-              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+              <span class="price">$120</span>
+              <div class="cart-controls">
+                <div class="qty-wrapper">
+                  <button type="button" class="qty-btn minus">-</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="1000" data-product="Postres y Dulces Personalizados">
+                  <button type="button" class="qty-btn plus">+</button>
+                </div>
+                <button class="btn btn-cart btn-sm" data-product="Postres y Dulces Personalizados" data-price="120">➕ Añadir</button>
+              </div>
             </div>
           </div>
         </div>
@@ -166,8 +183,15 @@
             <h3>Catering para Eventos a Gran Escala</h3>
             <p>Servicio completo de catering para bodas, galas, eventos corporativos y celebraciones de gran formato. Incluye montaje, servicio, vajilla y coordinación total del menú.</p>
             <div class="product-price">
-              <span class="price">$900 <small>/ starting</small></span>
-              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+              <span class="price">$900</span>
+              <div class="cart-controls">
+                <div class="qty-wrapper">
+                  <button type="button" class="qty-btn minus">-</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="1000" data-product="Catering a Gran Escala">
+                  <button type="button" class="qty-btn plus">+</button>
+                </div>
+                <button class="btn btn-cart btn-sm" data-product="Catering a Gran Escala" data-price="900">➕ Añadir</button>
+              </div>
             </div>
           </div>
         </div>
@@ -182,8 +206,15 @@
             <h3>Menús Especiales y Temáticos</h3>
             <p>Opciones veganas, sin gluten, saludables y menús temáticos personalizados. Porque cada invitado merece disfrutar sin preocuparse — con el mismo sabor artesanal de Nickylicious.</p>
             <div class="product-price">
-              <span class="price">$180 <small>/ starting</small></span>
-              <a href="#quote" class="btn btn-primary btn-sm">Cotizar</a>
+              <span class="price">$180</span>
+              <div class="cart-controls">
+                <div class="qty-wrapper">
+                  <button type="button" class="qty-btn minus">-</button>
+                  <input type="number" class="qty-input" value="1" min="1" max="1000" data-product="Menús Especiales y Temáticos">
+                  <button type="button" class="qty-btn plus">+</button>
+                </div>
+                <button class="btn btn-cart btn-sm" data-product="Menús Especiales y Temáticos" data-price="180">➕ Añadir</button>
+              </div>
             </div>
           </div>
         </div>
@@ -308,7 +339,7 @@
     </div>
   </section>
 
-  <!-- ==================== TESTIMONIOS ==================== -->
+  <!-- ==================== TESTIMONIOS ANIMADOS ==================== -->
   <section class="testimonials section-pad" id="testimonials">
     <div class="container">
       <div class="section-header reveal">
@@ -316,50 +347,67 @@
         <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
         <p class="section-subtitle">Historias reales de eventos memorables</p>
       </div>
-      <div class="testimonials-grid">
 
-        <div class="testimonial-card reveal">
-          <div class="testimonial-quote">"</div>
-          <div class="testimonial-stars">★★★★★</div>
-          <blockquote>"Nickylicious transformó nuestra boda en algo mágico. Los invitados no paraban de hablar de la comida — la tabla de charcutería fue un éxito total. Se nota que cada plato está hecho con amor real."</blockquote>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">MR</div>
-            <div>
+      <div class="at-carousel reveal" id="atCarousel">
+        <!-- Image Side -->
+        <div class="at-image-col">
+          <div class="at-image-wrapper" id="atImageWrapper">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop&crop=face" alt="María Rodríguez" class="at-img active" data-index="0">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" alt="Carlos García" class="at-img" data-index="1">
+            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face" alt="Laura Pérez" class="at-img" data-index="2">
+          </div>
+        </div>
+
+        <!-- Text Side -->
+        <div class="at-text-col">
+          <div class="at-slide active" data-index="0">
+            <div class="at-stars">★★★★★</div>
+            <blockquote class="at-quote">"Nickylicious transformó nuestra boda en algo mágico. Los invitados no paraban de hablar de la comida — la tabla de charcutería fue un éxito total. Se nota que cada plato está hecho con amor real."</blockquote>
+            <div class="at-author">
               <h4>María Rodríguez</h4>
               <p>Boda — 150 invitados</p>
             </div>
           </div>
-        </div>
-
-        <div class="testimonial-card reveal">
-          <div class="testimonial-quote">"</div>
-          <div class="testimonial-stars">★★★★★</div>
-          <blockquote>"Contratamos a Nickylicious para el lanzamiento de nuestro producto y superaron todas las expectativas. Servicio puntual, presentación impecable y un sabor que dejó a todo el equipo impresionado."</blockquote>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">CG</div>
-            <div>
+          <div class="at-slide" data-index="1">
+            <div class="at-stars">★★★★★</div>
+            <blockquote class="at-quote">"Contratamos a Nickylicious para el lanzamiento de nuestro producto y superaron todas las expectativas. Servicio puntual, presentación impecable y un sabor que dejó a todo el equipo impresionado."</blockquote>
+            <div class="at-author">
               <h4>Carlos García</h4>
               <p>Evento Corporativo — TechCorp</p>
             </div>
           </div>
-        </div>
-
-        <div class="testimonial-card reveal">
-          <div class="testimonial-quote">"</div>
-          <div class="testimonial-stars">★★★★★</div>
-          <blockquote>"Los cupcakes personalizados para el bautizo de mi hija fueron una obra de arte. Nicky entendió exactamente lo que quería y hasta me sorprendió con detalles extra. ¡100% recomendados!"</blockquote>
-          <div class="testimonial-author">
-            <div class="testimonial-avatar">LP</div>
-            <div>
+          <div class="at-slide" data-index="2">
+            <div class="at-stars">★★★★★</div>
+            <blockquote class="at-quote">"Los cupcakes personalizados para el bautizo de mi hija fueron una obra de arte. Nicky entendió exactamente lo que quería y hasta me sorprendió con detalles extra. ¡100% recomendados!"</blockquote>
+            <div class="at-author">
               <h4>Laura Pérez</h4>
               <p>Bautizo — Mesa de dulces</p>
             </div>
           </div>
         </div>
 
+        <!-- Navigation -->
+        <div class="at-nav">
+          <button class="at-arrow at-prev" id="atPrev" aria-label="Anterior">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          </button>
+          <button class="at-arrow at-next" id="atNext" aria-label="Siguiente">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+
+        <!-- Progress dots -->
+        <div class="at-dots" id="atDots">
+          <button class="at-dot active" data-index="0"></button>
+          <button class="at-dot" data-index="1"></button>
+          <button class="at-dot" data-index="2"></button>
+        </div>
       </div>
+
     </div>
   </section>
+
+
 
   <!-- ==================== FORMULARIO COTIZACIÓN ==================== -->
   <section class="quote-form-section section-pad" id="quote">
@@ -407,26 +455,15 @@
           <div class="form-group">
             <label for="eventDate">Fecha del Evento *</label>
             <input type="date" id="eventDate" name="eventDate" required>
+            <div class="date-warning" id="dateWarning" style="display:none;">
+              ⚠️ La fecha seleccionada es en menos de 48 horas. No es posible cotizar con tan poca antelación.
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <label>Productos o Servicios de Interés</label>
-          <div class="checkbox-group">
-            <label class="checkbox-label">
-              <input type="checkbox" name="services" value="picaderas"> Picaderas Frías y Calientes
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="services" value="charcuteria"> Tablas de Quesos y Charcutería
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="services" value="postres"> Postres y Dulces Personalizados
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="services" value="catering"> Catering a Gran Escala
-            </label>
-            <label class="checkbox-label">
-              <input type="checkbox" name="services" value="menus"> Menús Especiales y Temáticos
-            </label>
+        <div class="form-group form-subtotal-group">
+          <label>Resumen de Presupuesto</label>
+          <div class="order-subtotal-display" id="orderSubtotalDisplay">
+            <p class="empty-subtotal">Aún no has añadido productos al carrito.</p>
           </div>
         </div>
         <div class="form-group">
@@ -593,6 +630,32 @@
         <button class="btn btn-secondary" id="policiesDecline">Cancelar</button>
         <button class="btn btn-primary" id="policiesAccept">Acepto, Continuar a WhatsApp</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== FLOATING BUDGET CART ==================== -->
+  <div class="budget-float" id="budgetFloat" style="display:none;">
+    <span class="budget-float-icon">🛒</span>
+    <span class="budget-float-count" id="budgetCount">0</span>
+  </div>
+
+  <!-- ==================== BUDGET CART DRAWER ==================== -->
+  <div class="cart-drawer-overlay" id="cartOverlay"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h3>🛒 Tu Presupuesto</h3>
+      <button class="cart-drawer-close" id="cartClose">&times;</button>
+    </div>
+    <div class="cart-drawer-body" id="cartBody">
+      <p class="cart-empty">No has añadido productos aún.</p>
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cart-total">
+        <span>Total estimado:</span>
+        <span class="cart-total-price" id="cartTotal">$0</span>
+      </div>
+      <button class="btn btn-secondary btn-sm" id="cartClear">🗑️ Vaciar</button>
+      <a href="#quote" class="btn btn-primary" id="cartQuote">📝 Solicitar Cotización</a>
     </div>
   </div>
 

@@ -4,7 +4,7 @@ Esta es la página web oficial de **Nickylicious**, diseñada para ofrecer una e
 
 ## 🌟 ¿Qué hace especial a este sitio?
 - **Diseño de Lujo**: Colores y animaciones que se sienten como una película.
-- **Varios Idiomas**: Funciona en español, inglés, portugués, italiano, francés, japonés y coreano.
+- **Varios Idiomas**: Funciona en español e inglés.
 - **Fácil Contacto**: Botón directo para hablar por WhatsApp.
 
 ---

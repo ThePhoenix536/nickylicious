@@ -151,6 +151,74 @@ document.addEventListener('DOMContentLoaded', () => {
   revealElements.forEach(el => revealObserver.observe(el));
 
   // ============================================
+  // 4b. ANIMATED TESTIMONIALS CAROUSEL
+  // ============================================
+  const atImages = document.querySelectorAll('.at-img');
+  const atSlides = document.querySelectorAll('.at-slide');
+  const atDots   = document.querySelectorAll('.at-dot');
+  const atPrev   = document.getElementById('atPrev');
+  const atNext   = document.getElementById('atNext');
+  let atCurrent  = 0;
+  let atTotal    = atSlides.length;
+  let atAutoTimer;
+
+  function goToSlide(index, direction) {
+    if (index === atCurrent || !atTotal) return;
+
+    // Exit current image with direction
+    const currentImg = document.querySelector('.at-img.active');
+    if (currentImg) {
+      currentImg.classList.remove('active');
+      currentImg.classList.add(direction === 'next' ? 'exit-left' : 'exit-right');
+      setTimeout(() => {
+        currentImg.classList.remove('exit-left', 'exit-right');
+      }, 600);
+    }
+
+    // Exit current text
+    atSlides[atCurrent].classList.remove('active');
+
+    // Enter new
+    atCurrent = index;
+    atImages[atCurrent].classList.add('active');
+    atSlides[atCurrent].classList.add('active');
+
+    // Update dots
+    atDots.forEach(d => d.classList.remove('active'));
+    if (atDots[atCurrent]) atDots[atCurrent].classList.add('active');
+  }
+
+  function nextSlide() {
+    goToSlide((atCurrent + 1) % atTotal, 'next');
+  }
+
+  function prevSlide() {
+    goToSlide((atCurrent - 1 + atTotal) % atTotal, 'prev');
+  }
+
+  function startAutoplay() {
+    atAutoTimer = setInterval(nextSlide, 5000);
+  }
+
+  function resetAutoplay() {
+    clearInterval(atAutoTimer);
+    startAutoplay();
+  }
+
+  if (atNext) atNext.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+  if (atPrev) atPrev.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
+  atDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx = parseInt(dot.dataset.index);
+      const dir = idx > atCurrent ? 'next' : 'prev';
+      goToSlide(idx, dir);
+      resetAutoplay();
+    });
+  });
+
+  if (atTotal > 0) startAutoplay();
+
+  // ============================================
   // 5. FORM VALIDATION & SUBMISSION
   // ============================================
   quoteForm.addEventListener('submit', (e) => {
@@ -193,11 +261,23 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Collect form data
-    const services = [];
-    quoteForm.querySelectorAll('input[name="services"]:checked').forEach(cb => {
-      services.push(cb.value);
-    });
+    // 48-hour date block check
+    if (dateBlocked) {
+      alert('⚠️ La fecha del evento debe ser al menos 48 horas a partir de ahora.');
+      eventDateInput.focus();
+      return;
+    }
+
+    // Build budget cart summary for WhatsApp
+    let cartSummary = '';
+    let cartTotalVal = 0;
+    if (budgetCart.length > 0) {
+      cartSummary = budgetCart.map(item => {
+        const p = parseInt(item.price.replace(/[^0-9]/g, ''));
+        cartTotalVal += (p * item.qty);
+        return `  • ${item.name} x${item.qty} ($${(p * item.qty).toLocaleString()})`;
+      }).join('\n');
+    }
 
     const formData = {
       name: name.value,
@@ -206,7 +286,6 @@ document.addEventListener('DOMContentLoaded', () => {
       eventType: eventType.value,
       guests: guests.value,
       eventDate: eventDate.value,
-      services: services.join(', '),
       message: quoteForm.querySelector('#message').value
     };
 
@@ -219,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
       `- *Tipo de Evento:* ${formData.eventType}\n` +
       `- *Invitados:* ${formData.guests}\n` +
       `- *Fecha:* ${formData.eventDate}\n` +
-      `- *Servicios:* ${formData.services || 'No especificado'}\n` +
+      (cartSummary ? `- *Presupuesto Seleccionado:*\n${cartSummary}\n\n*Subtotal Estimado:* $${cartTotalVal.toLocaleString()}\n` : '') +
       `- *Mensaje:* ${formData.message || 'Sin mensaje adicional'}`
     );
 
@@ -329,16 +408,248 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
-  // 10. Set minimum date for event date input
+  // 10. DATE BLOCKING: 48-hour minimum
   // ============================================
   const eventDateInput = document.getElementById('eventDate');
-  if (eventDateInput) {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm   = String(today.getMonth() + 1).padStart(2, '0');
-    const dd   = String(today.getDate()).padStart(2, '0');
-    eventDateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+  const dateWarning = document.getElementById('dateWarning');
+  let dateBlocked = false;
+
+  function get48hMinDate() {
+    const min48 = new Date(Date.now() + 48 * 60 * 60 * 1000);
+    const yyyy = min48.getFullYear();
+    const mm   = String(min48.getMonth() + 1).padStart(2, '0');
+    const dd   = String(min48.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   }
+
+  if (eventDateInput) {
+    eventDateInput.setAttribute('min', get48hMinDate());
+
+    eventDateInput.addEventListener('change', () => {
+      const selectedDate = new Date(eventDateInput.value + 'T23:59:59');
+      const minAllowed   = new Date(Date.now() + 48 * 60 * 60 * 1000);
+
+      if (selectedDate < minAllowed) {
+        dateBlocked = true;
+        if (dateWarning) dateWarning.style.display = 'block';
+        eventDateInput.closest('.form-group').style.outline = '2px solid #ff4444';
+      } else {
+        dateBlocked = false;
+        if (dateWarning) dateWarning.style.display = 'none';
+        eventDateInput.closest('.form-group').style.outline = '';
+      }
+    });
+  }
+
+  // ============================================
+  // 10b. BUDGET CART SYSTEM (with Quantities & Toggle)
+  // ============================================
+  const budgetCart = [];
+  const budgetFloat = document.getElementById('budgetFloat');
+  const budgetCount = document.getElementById('budgetCount');
+  const cartDrawer = document.getElementById('cartDrawer');
+  const cartOverlay = document.getElementById('cartOverlay');
+  const cartBody = document.getElementById('cartBody');
+  const cartTotal = document.getElementById('cartTotal');
+  const cartClose = document.getElementById('cartClose');
+  const cartClear = document.getElementById('cartClear');
+  const cartQuoteBtn = document.getElementById('cartQuote');
+  const orderSubtotalDisplay = document.getElementById('orderSubtotalDisplay');
+
+  function updateCartUI() {
+    // Calculate total item count (sums up quantities)
+    const totalItems = budgetCart.reduce((sum, item) => sum + item.qty, 0);
+
+    // Update floating badge
+    if (budgetFloat) {
+      budgetFloat.style.display = budgetCart.length > 0 ? 'flex' : 'none';
+      if (budgetCount) budgetCount.textContent = totalItems;
+    }
+
+    // Calculate total price
+    const total = budgetCart.reduce((sum, item) => {
+      const p = parseInt(item.price.replace(/[^0-9]/g, ''));
+      return sum + (p * item.qty);
+    }, 0);
+
+    // Update drawer body
+    if (cartBody) {
+      if (budgetCart.length === 0) {
+        cartBody.innerHTML = '<p class="cart-empty">No has añadido productos aún.</p>';
+      } else {
+        cartBody.innerHTML = budgetCart.map((item, i) => `
+          <div class="cart-item">
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name} (x${item.qty})</div>
+              <div class="cart-item-price">$${(parseInt(item.price.replace(/[^0-9]/g, '')) * item.qty).toLocaleString()}</div>
+            </div>
+            <button class="cart-item-remove" data-index="${i}" title="Eliminar">&times;</button>
+          </div>
+        `).join('');
+
+        // Remove buttons
+        cartBody.querySelectorAll('.cart-item-remove').forEach(btn => {
+          btn.addEventListener('click', () => {
+             const idx = parseInt(btn.dataset.index);
+             budgetCart.splice(idx, 1);
+             updateCartUI();
+             updateAddButtons();
+          });
+        });
+      }
+    }
+
+    // Update form subtotal display
+    if (orderSubtotalDisplay) {
+      if (budgetCart.length === 0) {
+        orderSubtotalDisplay.innerHTML = '<p class="empty-subtotal">Aún no has añadido productos al carrito.</p>';
+      } else {
+        const itemsHtml = budgetCart.map(item => `
+          <div class="subtotal-item">
+            <span>${item.name} <strong>x${item.qty}</strong></span>
+            <span>$${(parseInt(item.price.replace(/[^0-9]/g, '')) * item.qty).toLocaleString()}</span>
+          </div>
+        `).join('');
+        
+        orderSubtotalDisplay.innerHTML = `
+          ${itemsHtml}
+          <div class="subtotal-divider"></div>
+          <div class="subtotal-total">
+            <span>Subtotal Estimado:</span>
+            <span>$${total.toLocaleString()}</span>
+          </div>
+        `;
+      }
+    }
+
+    // Update total text in drawer
+    if (cartTotal) {
+      cartTotal.textContent = `$${total.toLocaleString()}`;
+    }
+  }
+
+  function updateAddButtons() {
+    document.querySelectorAll('.btn-cart').forEach(btn => {
+      const productName = btn.dataset.product;
+      const inCart = budgetCart.some(item => item.name === productName);
+      if (inCart) {
+        btn.classList.add('added');
+        btn.innerHTML = '❌ Quitar';
+      } else {
+        btn.classList.remove('added');
+        btn.innerHTML = '➕ Añadir';
+      }
+    });
+  }
+
+  function openCart() {
+    if (cartDrawer) cartDrawer.classList.add('open');
+    if (cartOverlay) cartOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeCart() {
+    if (cartDrawer) cartDrawer.classList.remove('open');
+    if (cartOverlay) cartOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Handle +/- quantity buttons on catalog cards
+  document.querySelectorAll('.qty-wrapper').forEach(wrapper => {
+    const minusBtn = wrapper.querySelector('.minus');
+    const plusBtn = wrapper.querySelector('.plus');
+    const input = wrapper.querySelector('.qty-input');
+    const productName = input.dataset.product;
+
+    function _updateQty(newVal) {
+      if (newVal < 1) newVal = 1;
+      if (newVal > 1000) newVal = 1000;
+      input.value = newVal;
+      
+      // If already in cart, dynamically update cart
+      const cartItem = budgetCart.find(item => item.name === productName);
+      if (cartItem) {
+        cartItem.qty = newVal;
+        updateCartUI();
+      }
+    }
+
+    if (minusBtn) minusBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      _updateQty(parseInt(input.value || 1) - 1);
+    });
+
+    if (plusBtn) plusBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      _updateQty(parseInt(input.value || 1) + 1);
+    });
+
+    if (input) input.addEventListener('change', (e) => {
+      _updateQty(parseInt(e.target.value || 1));
+    });
+  });
+
+  // Add-to-cart (Toggle) buttons on catalog cards
+  document.querySelectorAll('.btn-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const productName = btn.dataset.product;
+      const productPrice = btn.dataset.price;
+      
+      // Find the associated quantity input
+      const wrapper = btn.closest('.cart-controls');
+      let qty = 1;
+      if (wrapper) {
+        const input = wrapper.querySelector('.qty-input');
+        if (input) qty = parseInt(input.value || 1);
+      }
+
+      const existingIndex = budgetCart.findIndex(item => item.name === productName);
+
+      if (existingIndex >= 0) {
+        // Toggle OFF (Remove from cart)
+        budgetCart.splice(existingIndex, 1);
+      } else {
+        // Toggle ON (Add to cart)
+        budgetCart.push({ name: productName, price: productPrice, qty: qty });
+      }
+      
+      updateCartUI();
+      updateAddButtons();
+    });
+  });
+
+  // Float badge & Overlay bindings
+  if (budgetFloat) budgetFloat.addEventListener('click', openCart);
+  if (cartClose) cartClose.addEventListener('click', closeCart);
+  if (cartOverlay) cartOverlay.addEventListener('click', closeCart);
+
+  // Clear cart
+  if (cartClear) {
+    cartClear.addEventListener('click', () => {
+      budgetCart.length = 0;
+      updateCartUI();
+      updateAddButtons();
+    });
+  }
+
+  // "Request Quote" from cart drawer → scroll to form + close
+  if (cartQuoteBtn) {
+    cartQuoteBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeCart();
+
+      // Scroll to the form
+      const quoteSection = document.getElementById('quote');
+      if (quoteSection) {
+        setTimeout(() => {
+          quoteSection.scrollIntoView({ behavior: 'smooth' });
+        }, 300);
+      }
+    });
+  }
+
+  // Initial setup for the form Subtotal empty state
+  updateCartUI();
 
   // Initial calls
   handleNavbarScroll();
@@ -639,131 +950,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'footer.services': 'SERVICIOS',
       'footer.contact': 'CONTACTO',
       'footer.copyright': '© 2026 Nickylicious. Todos los derechos reservados. Hecho con 🔥 y mucho amor.',
-      'footer.payment': '💳 Pagos: Efectivo o tarjeta contra entrega.',
-    },
-    pt: {
-      'nav.nosotros': 'Sobre Nós', 'nav.catalogo': 'Catálogo', 'nav.proceso': 'Processo', 'nav.galeria': 'Galeria', 'nav.resenas': 'Avaliações', 'nav.contacto': 'Contato', 'nav.cotizar': 'Orçamento',
-      'footer.nav1': 'Sobre Nós', 'footer.nav2': 'Catálogo', 'footer.nav3': 'Processo', 'footer.nav4': 'Galeria', 'footer.nav5': 'Avaliações',
-      'footer.serv1': 'Aperitivos', 'footer.serv2': 'Charcutaria', 'footer.serv3': 'Sobremesas', 'footer.serv4': 'Catering', 'footer.serv5': 'Menus Especiais',
-      'hero.badge': '🔥 Catering Artesanal Premium',
-      'hero.subtitle': 'Cada mordida conta uma história. Criamos experiências artesanais para seus momentos — com o calor do caseiro e qualidade profissional.',
-      'hero.cta1': 'Ver Catálogo 🍽️', 'hero.cta2': 'Pedir Orçamento', 'hero.scroll': 'Descubra', 'hero.title.tagline': 'Sabor que Reúne Pessoas',
-      'about.title': 'Sobre Nós', 'about.tagline': 'Comida Caseira <span>&</span> Doces',
-      'about.p1': 'A Nickylicious cria pratos inspirados usando os ingredientes mais frescos, com ênfase no sabor autêntico de Nova York e um toque dominicano.',
-      'about.p2': 'Fale conosco sobre o seu próximo evento. Estamos aqui para tornar sua vida mais deliciosa.',
-      'about.cta': 'Solicitar Orçamento',
-      'catalog.title': 'Catálogo', 'catalog.subtitle': 'Explore nossas criações inesquecíveis',
-      'catalog.picaderas.title': 'Aperitivos Frios e Quentes', 'catalog.picaderas.desc': 'Deliciosas empanadas, bruschettas e mais maravilhas caseiras.',
-      'catalog.charcuteria.title': 'Tábuas de Queijos e Frios', 'catalog.charcuteria.desc': 'Tábuas gourmet artesanais com queijos premium e frutas frescas.',
-      'catalog.postres.title': 'Sobremesas Personalizadas', 'catalog.postres.desc': 'Bolos e taças decoradas. Verdadeira arte doce.',
-      'catalog.catering.title': 'Catering em Grande Escala', 'catalog.catering.desc': 'Serviço de buffet completo para grandes casamentos e celebrações.',
-      'catalog.menus.title': 'Menus Especiais', 'catalog.menus.desc': 'Opções saudáveis e flexíveis para necessidades veganas e sem glúten.',
-      'catalog.cotizar': 'Orçamento', 'catalog.payment': '💳 Pagamento com <span>Cartão</span> ou <span>Dinheiro</span> na entrega.',
-      'badge.express': '⚡ Entrega 24/48h', 'badge.quote': '📋 Orçamento 1-2 sem',
-      'process.title': 'Como Funciona?', 'process.subtitle': '4 passos simples',
-      'process.s1.title': 'Escolha Produtos', 'process.s1.desc': 'Selecione o que gosta.',
-      'process.s2.title': 'Peça Orçamento', 'process.s2.desc': 'Preencha os detalhes.',
-      'process.s3.title': 'Confirmação', 'process.s3.desc': 'Confirmamos sua ordem.',
-      'process.s4.title': 'Aproveite!', 'process.s4.desc': 'Aproveite seu evento.',
-      'gallery.title': 'Portfólio', 'gallery.subtitle': 'Nossos trabalhos...',
-      'gallery.all': 'Todos', 'gallery.corporativo': 'Corpo', 'gallery.social': 'Social', 'gallery.postres': 'Sobremesas', 'gallery.catering': 'Completo',
-      'testimonials.title': 'Avaliações', 'testimonials.subtitle': 'Mágica pura.',
-      'testimonial1.text': '"Foram incríveis..."', 'testimonial1.event': 'Evento',
-      'testimonial2.text': '"Muito pontuais..."', 'testimonial2.event': 'Corporativo',
-      'testimonial3.text': '"Recomendo 100%!"', 'testimonial3.event': 'Aniversário',
-      'policies.title': 'Políticas de Pedido', 'policies.subtitle': 'Leia antes',
-      'policy.1.title': 'Tempo', 'policy.1.desc': 'Mínimo de <strong>1.5 semanas</strong> de antecedência.',
-      'policy.2.title': 'Depósito', 'policy.2.desc': 'Depósito de <strong>$10 NÃO reembolsável</strong>.',
-      'policy.3.title': 'Pagamento Total', 'policy.3.desc': 'Pagamento total antes da entrega.',
-      'policy.4.title': 'Restrições', 'policy.4.desc': 'Sem drogas ou nudez.',
-      'policy.5.title': 'Responsabilidade', 'policy.5.desc': 'Não somos responsáveis após a entrega.',
-      'policy.6.title': 'Reembolsos', 'policy.6.desc': 'Sem devoluções.',
-      'policy.7.title': 'Detalhes', 'policy.7.desc': 'Seja específico.',
-      'policies.decline': 'Cancelar', 'policies.accept': 'Aceitar, Confirmar',
-      'announce.title': 'Aviso!', 'announce.text': 'Por favor leia as políticas...',
-      'quote.title': 'Orçamento', 'quote.subtitle': 'Sua proposta ideal',
-      'form.name': 'Nome *', 'form.name.ph': 'Seu nome', 'form.phone': 'Telefone *', 'form.phone.ph': '000-0000',
-      'form.email': 'Email *', 'form.email.ph': 'email@email.com', 'form.eventType': 'Evento *', 'form.eventType.ph': 'Selecione',
-      'form.eventType.boda': 'Boda', 'form.eventType.corporativo': 'Corp', 'form.eventType.bautizo': 'Batismo', 'form.eventType.cumple': 'Aniv', 'form.eventType.fiesta': 'Festa', 'form.eventType.reunion': 'Reunião', 'form.eventType.otro': 'Outro',
-      'form.guests': 'Convidados *', 'form.guests.ph': '50', 'form.date': 'Data *',
-      'form.services': 'Serviços', 'form.service1': 'S1', 'form.service2': 'S2', 'form.service3': 'S3', 'form.service4': 'S4', 'form.service5': 'S5',
-      'form.message': 'Msg', 'form.message.ph': '...', 'form.submit': 'Enviar',
-      'contact.title': 'Contato', 'contact.subtitle': 'Fale', 'contact.phone': 'Telefone', 'contact.whatsapp': 'WhatsApp', 'contact.whatsapp.link': 'WhatsApp link',
-      'contact.email': 'Email', 'contact.location': 'Local', 'contact.hours': 'Horas', 'contact.hours.week': 'Seg-Sex', 'contact.hours.sat': 'Sáb',
-      'footer.desc': 'Premium', 'footer.nav': 'NAVEGAÇÃO', 'footer.services': 'SERVIÇO', 'footer.contact': 'CONTATO', 'footer.copyright': '© 2026 Nickylicious', 'footer.payment': '💳 Pagamento na entrega'
-    },
-    it: {
-      'nav.nosotros': 'Chi Siamo', 'nav.catalogo': 'Catalogo', 'nav.proceso': 'Processo', 'nav.galeria': 'Galleria', 'nav.resenas': 'Recensioni', 'nav.contacto': 'Contatti', 'nav.cotizar': 'Preventivo',
-      'footer.nav1': 'Chi Siamo', 'footer.nav2': 'Catalogo', 'footer.nav3': 'Processo', 'footer.nav4': 'Galleria', 'footer.nav5': 'Recensioni',
-      'footer.serv1': 'Antipasti', 'footer.serv2': 'Salumi', 'footer.serv3': 'Dolci', 'footer.serv4': 'Catering', 'footer.serv5': 'Menu Speciali',
-      'hero.badge': '🔥 Catering Artigianale Premium',
-      'hero.subtitle': 'Ogni boccone racconta una storia. Creiamo esperienze artigianali.',
-      'hero.cta1': 'Vai al Catalogo 🍽️', 'hero.cta2': 'Chiedi Preventivo', 'hero.scroll': 'Scopri', 'hero.title.tagline': 'Sapore che Unisce',
-      'about.title': 'Chi Siamo', 'about.tagline': 'Pasti <span>&</span> Dolci', 'about.p1': 'Nickylicious porta in tavola magia.', 'about.p2': 'Scrivici per info.', 'about.cta': 'Preventivo',
-      'catalog.title': 'Catalogo', 'catalog.subtitle': 'Esplora e Gusta', 'catalog.picaderas.title': 'Stuzzichini', 'catalog.picaderas.desc': 'Empanadas, bruschette', 'catalog.charcuteria.title': 'Salumi', 'catalog.charcuteria.desc': 'Tavole Gourmet', 'catalog.postres.title': 'Dolci', 'catalog.postres.desc': 'Dolci e Torte', 'catalog.catering.title': 'Catering', 'catalog.catering.desc': 'Servizi per feste', 'catalog.menus.title': 'Menu', 'catalog.menus.desc': 'Opzioni su misura', 'catalog.cotizar': 'Inizia', 'catalog.payment': 'Contanti o carta', 'badge.express': '24-48h', 'badge.quote': '1-2 sett',
-      'process.title': 'Come Funziona?', 'process.subtitle': '4 passi', 'process.s1.title': '1', 'process.s1.desc': 'Scegli', 'process.s2.title': '2', 'process.s2.desc': 'Chiedi', 'process.s3.title': '3', 'process.s3.desc': 'Conferma', 'process.s4.title': '4', 'process.s4.desc': 'Gusta',
-      'gallery.title': 'Foto', 'gallery.subtitle': 'I nostri lavori', 'gallery.all': 'Tutti', 'gallery.corporativo': 'Aziende', 'gallery.social': 'Social', 'gallery.postres': 'Dolci', 'gallery.catering': 'Catering',
-      'testimonials.title': 'Dicono di noi', 'testimonials.subtitle': 'Storie', 'testimonial1.text': 'Wow', 'testimonial1.event': 'Fest', 'testimonial2.text': 'Top', 'testimonial2.event': 'Ev', 'testimonial3.text': 'Bello', 'testimonial3.event': 'F.',
-      'policies.title': 'Regole', 'policies.subtitle': 'Leggi attentamente', 'policy.1.title': '1', 'policy.1.desc': 'Min. <strong>1.5 sett</strong>', 'policy.2.title': '2', 'policy.2.desc': '<strong>$10 NON rimborsabile</strong>', 'policy.3.title': '3', 'policy.3.desc': 'Pagamento totale prima', 'policy.4.title': '4', 'policy.4.desc': 'Zero contenuti espliciti', 'policy.5.title': '5', 'policy.5.desc': 'Non respondabili dopo consegna', 'policy.6.title': '6', 'policy.6.desc': 'No rimborsi', 'policy.7.title': '7', 'policy.7.desc': 'Sii dettagliato.', 'policies.decline': 'Cancella', 'policies.accept': 'Accetta',
-      'announce.title': 'Avviso', 'announce.text': '...', 'quote.title': 'Preventivo', 'quote.subtitle': 'Fai la tua richiesta',
-      'form.name': 'Nome', 'form.name.ph': 'Nome', 'form.phone': 'Tel', 'form.phone.ph': '0', 'form.email': 'Email', 'form.email.ph': '@', 'form.eventType': 'T.', 'form.eventType.ph': 'S', 'form.eventType.boda': 'M', 'form.eventType.corporativo': 'C', 'form.eventType.bautizo': 'B', 'form.eventType.cumple': 'C', 'form.eventType.fiesta': 'F', 'form.eventType.reunion': 'R', 'form.eventType.otro': 'O', 'form.guests': 'N', 'form.guests.ph': '50', 'form.date': 'D', 'form.services': 'S', 'form.service1': '1', 'form.service2': '2', 'form.service3': '3', 'form.service4': '4', 'form.service5': '5', 'form.message': 'M', 'form.message.ph': '.', 'form.submit': 'Vai',
-      'contact.title': 'Contatto', 'contact.subtitle': '.', 'contact.phone': 'P', 'contact.whatsapp': 'W', 'contact.whatsapp.link': 'L',
-      'contact.email': 'E', 'contact.location': 'L', 'contact.hours': 'H', 'contact.hours.week': 'W', 'contact.hours.sat': 'S',
-      'footer.desc': 'Art', 'footer.nav': 'N', 'footer.services': 'S', 'footer.contact': 'C', 'footer.copyright': 'C', 'footer.payment': 'P'
-    },
-    fr: {
-      'nav.nosotros': 'À Propos', 'nav.catalogo': 'Catalogue', 'nav.proceso': 'Processus', 'nav.galeria': 'Galerie', 'nav.resenas': 'Avis', 'nav.contacto': 'Contact', 'nav.cotizar': 'Devis',
-      'footer.nav1': 'À Propos', 'footer.nav2': 'Catalogue', 'footer.nav3': 'Processus', 'footer.nav4': 'Galerie', 'footer.nav5': 'Avis',
-      'footer.serv1': 'Apéritifs', 'footer.serv2': 'Charcuterie', 'footer.serv3': 'Desserts', 'footer.serv4': 'Catering', 'footer.serv5': 'Menus',
-      'hero.badge': '🔥 Fraîcheur et Qualité Artisanale',
-      'hero.subtitle': 'Des saveurs authentiques pour vos beaux moments.',
-      'hero.cta1': 'Voir le Catalogue 🍽️', 'hero.cta2': 'Demander un Devis', 'hero.scroll': 'Découvrir', 'hero.title.tagline': 'Réunions Gourmandes',
-      'about.title': 'À Propos', 'about.tagline': 'Fait Maison <span>&</span> Délicieux', 'about.p1': 'Nickylicious est là pour vous.', 'about.p2': 'Écrivez-nous.', 'about.cta': 'Devis',
-      'catalog.title': 'Catalogue', 'catalog.subtitle': 'Parcourez', 'catalog.picaderas.title': 'Apéritifs', 'catalog.picaderas.desc': 'Fait avec amour.', 'catalog.charcuteria.title': 'Planches', 'catalog.charcuteria.desc': 'Partager.', 'catalog.postres.title': 'Desserts', 'catalog.postres.desc': 'Gâteaux.', 'catalog.catering.title': 'Catering', 'catalog.catering.desc': 'Service.', 'catalog.menus.title': 'Menus', 'catalog.menus.desc': 'Flexibles.', 'catalog.cotizar': 'Devis', 'catalog.payment': 'Livraison', 'badge.express': '24-48h', 'badge.quote': '1-2 s',
-      'process.title': 'Comment ça Marche?', 'process.subtitle': '4 étapes', 'process.s1.title': 'A', 'process.s1.desc': 'A', 'process.s2.title': 'B', 'process.s2.desc': 'B', 'process.s3.title': 'C', 'process.s3.desc': 'C', 'process.s4.title': 'D', 'process.s4.desc': 'D',
-      'gallery.title': 'Galerie', 'gallery.subtitle': 'Nos photos', 'gallery.all': 'Tout', 'gallery.corporativo': 'Corp', 'gallery.social': 'Social', 'gallery.postres': 'Douceurs', 'gallery.catering': 'Buffet',
-      'testimonials.title': 'Témoignages', 'testimonials.subtitle': 'Avis', 'testimonial1.text': 'Super', 'testimonial1.event': 'Mariage', 'testimonial2.text': 'Excellent', 'testimonial2.event': 'Fête', 'testimonial3.text': 'Miam', 'testimonial3.event': 'Bat',
-      'policies.title': 'Règles', 'policies.subtitle': 'Lire', 'policy.1.title': '1', 'policy.1.desc': '1.5 Semaines', 'policy.2.title': '2', 'policy.2.desc': '$10 non remb', 'policy.3.title': '3', 'policy.3.desc': 'Payer avant', 'policy.4.title': '4', 'policy.4.desc': 'X', 'policy.5.title': '5', 'policy.5.desc': 'X', 'policy.6.title': '6', 'policy.6.desc': 'X', 'policy.7.title': '7', 'policy.7.desc': 'X', 'policies.decline': 'Annuler', 'policies.accept': 'Accepter',
-      'announce.title': 'X', 'announce.text': '.', 'quote.title': 'X', 'quote.subtitle': 'X',
-      'form.name': 'N', 'form.name.ph': 'N', 'form.phone': 'P', 'form.phone.ph': 'P', 'form.email': 'E', 'form.email.ph': 'E', 'form.eventType': 'E', 'form.eventType.ph': 'E', 'form.eventType.boda': 'B', 'form.eventType.corporativo': 'C', 'form.eventType.bautizo': 'B', 'form.eventType.cumple': 'C', 'form.eventType.fiesta': 'F', 'form.eventType.reunion': 'R', 'form.eventType.otro': 'O', 'form.guests': 'G', 'form.guests.ph': 'G', 'form.date': 'D', 'form.services': 'S', 'form.service1': '1', 'form.service2': '2', 'form.service3': '3', 'form.service4': '4', 'form.service5': '5', 'form.message': 'M', 'form.message.ph': '.', 'form.submit': 'X',
-      'contact.title': 'X', 'contact.subtitle': '.', 'contact.phone': 'P', 'contact.whatsapp': 'W', 'contact.whatsapp.link': 'L', 'contact.email': 'E', 'contact.location': 'L', 'contact.hours': 'H', 'contact.hours.week': 'W', 'contact.hours.sat': 'S',
-      'footer.desc': 'X', 'footer.nav': 'N', 'footer.services': 'S', 'footer.contact': 'C', 'footer.copyright': 'C', 'footer.payment': 'P'
-    },
-    ja: {
-      'nav.nosotros': '私たちについて', 'nav.catalogo': 'カタログ', 'nav.proceso': 'プロセス', 'nav.galeria': 'ギャラリー', 'nav.resenas': 'レビュー', 'nav.contacto': '連絡先', 'nav.cotizar': '見積もり',
-      'footer.nav1': '私たちについて', 'footer.nav2': 'カタログ', 'footer.nav3': 'プロセス', 'footer.nav4': 'ギャラリー', 'footer.nav5': 'レビュー',
-      'footer.serv1': '前菜', 'footer.serv2': 'シャルキュトリー', 'footer.serv3': 'デザート', 'footer.serv4': 'ケータリング', 'footer.serv5': 'メニュー',
-      'hero.badge': '🔥 プレミアムケータリング',
-      'hero.subtitle': 'すべての食事に物語があります。',
-      'hero.cta1': 'カタログ 🍽️', 'hero.cta2': '見積り', 'hero.scroll': '次へ', 'hero.title.tagline': '結びつける風味',
-      'about.title': '私たちについて', 'about.tagline': 'ホームメイド <span>&</span> スイーツ', 'about.p1': '最高の素材。', 'about.p2': '特別な時間を。', 'about.cta': 'Go',
-      'catalog.title': 'カタログ', 'catalog.subtitle': '探る', 'catalog.picaderas.title': '前菜', 'catalog.picaderas.desc': '最高。', 'catalog.charcuteria.title': 'ボード', 'catalog.charcuteria.desc': '共有。', 'catalog.postres.title': 'スイーツ', 'catalog.postres.desc': '甘い。', 'catalog.catering.title': '大きな', 'catalog.catering.desc': '完全。', 'catalog.menus.title': 'メニュー', 'catalog.menus.desc': 'カスタム。', 'catalog.cotizar': '見積', 'catalog.payment': '払い', 'badge.express': '24-48h', 'badge.quote': '1-2週間',
-      'process.title': 'プロセス？', 'process.subtitle': '4', 'process.s1.title': 'A', 'process.s1.desc': 'A', 'process.s2.title': 'B', 'process.s2.desc': 'B', 'process.s3.title': 'C', 'process.s3.desc': 'C', 'process.s4.title': 'D', 'process.s4.desc': 'D',
-      'gallery.title': 'ギャラリー', 'gallery.subtitle': '写真', 'gallery.all': '全て', 'gallery.corporativo': '企業', 'gallery.social': '社交', 'gallery.postres': '甘', 'gallery.catering': '包',
-      'testimonials.title': 'レビュー', 'testimonials.subtitle': '声', 'testimonial1.text': '最高', 'testimonial1.event': '結', 'testimonial2.text': '良い', 'testimonial2.event': '企', 'testimonial3.text': '美味', 'testimonial3.event': '誕',
-      'policies.title': 'ポリシー', 'policies.subtitle': '読む', 'policy.1.title': '1', 'policy.1.desc': '1.5 週間', 'policy.2.title': '2', 'policy.2.desc': '$10', 'policy.3.title': '3', 'policy.3.desc': '払い', 'policy.4.title': '4', 'policy.4.desc': 'X', 'policy.5.title': '5', 'policy.5.desc': 'X', 'policy.6.title': '6', 'policy.6.desc': 'X', 'policy.7.title': '7', 'policy.7.desc': 'X', 'policies.decline': 'キャンセル', 'policies.accept': '受け入れる',
-      'announce.title': 'X', 'announce.text': '.', 'quote.title': '見積', 'quote.subtitle': 'X',
-      'form.name': '名前', 'form.name.ph': '名前', 'form.phone': 'P', 'form.phone.ph': 'P', 'form.email': 'E', 'form.email.ph': 'E', 'form.eventType': 'E', 'form.eventType.ph': 'E', 'form.eventType.boda': 'B', 'form.eventType.corporativo': 'C', 'form.eventType.bautizo': 'B', 'form.eventType.cumple': 'C', 'form.eventType.fiesta': 'F', 'form.eventType.reunion': 'R', 'form.eventType.otro': 'O', 'form.guests': 'G', 'form.guests.ph': 'G', 'form.date': 'D', 'form.services': 'S', 'form.service1': '1', 'form.service2': '2', 'form.service3': '3', 'form.service4': '4', 'form.service5': '5', 'form.message': 'M', 'form.message.ph': '.', 'form.submit': '送信',
-      'contact.title': 'X', 'contact.subtitle': '.', 'contact.phone': 'P', 'contact.whatsapp': 'W', 'contact.whatsapp.link': 'L', 'contact.email': 'E', 'contact.location': 'L', 'contact.hours': 'H', 'contact.hours.week': 'W', 'contact.hours.sat': 'S',
-      'footer.desc': 'X', 'footer.nav': 'N', 'footer.services': 'S', 'footer.contact': 'C', 'footer.copyright': '©', 'footer.payment': 'P'
-    },
-    ko: {
-      'nav.nosotros': '우리에 대해', 'nav.catalogo': '목록', 'nav.proceso': '과정', 'nav.galeria': '갤러리', 'nav.resenas': '리뷰', 'nav.contacto': '연락처', 'nav.cotizar': '견적',
-      'footer.nav1': '우리에 대해', 'footer.nav2': '목록', 'footer.nav3': '과정', 'footer.nav4': '갤러리', 'footer.nav5': '리뷰',
-      'footer.serv1': '간식', 'footer.serv2': '샤르키트리', 'footer.serv3': '디저트', 'footer.serv4': '케이터링', 'footer.serv5': '메뉴',
-      'hero.badge': '🔥 프리미엄 수제 케이터링',
-      'hero.subtitle': '모든 음식에는 이야기가 있습니다.',
-      'hero.cta1': '목록 보기 🍽️', 'hero.cta2': '견적 요청', 'hero.scroll': '발견', 'hero.title.tagline': '맛의 마법',
-      'about.title': '우리에 대해', 'about.tagline': '집의 맛 <span>&</span> 달콤함', 'about.p1': '최고의 음식.', 'about.p2': '연락주세요.', 'about.cta': 'Go',
-      'catalog.title': '목록', 'catalog.subtitle': '탐험하세요', 'catalog.picaderas.title': '전채', 'catalog.picaderas.desc': 'Good.', 'catalog.charcuteria.title': '치즈', 'catalog.charcuteria.desc': 'Share.', 'catalog.postres.title': '디저트', 'catalog.postres.desc': 'Sweet.', 'catalog.catering.title': '케이터링', 'catalog.catering.desc': 'Full.', 'catalog.menus.title': '메뉴', 'catalog.menus.desc': 'Custom.', 'catalog.cotizar': '견적', 'catalog.payment': '결제', 'badge.express': '24-48h', 'badge.quote': '1-2주',
-      'process.title': '과정?', 'process.subtitle': '4 steps', 'process.s1.title': 'A', 'process.s1.desc': 'A', 'process.s2.title': 'B', 'process.s2.desc': 'B', 'process.s3.title': 'C', 'process.s3.desc': 'C', 'process.s4.title': 'D', 'process.s4.desc': 'D',
-      'gallery.title': '갤러리', 'gallery.subtitle': '사진', 'gallery.all': '모두', 'gallery.corporativo': '기업', 'gallery.social': '사교', 'gallery.postres': '단것', 'gallery.catering': '케이터링',
-      'testimonials.title': '리뷰', 'testimonials.subtitle': '소리', 'testimonial1.text': '👍', 'testimonial1.event': '결', 'testimonial2.text': '👏', 'testimonial2.event': '기', 'testimonial3.text': '😋', 'testimonial3.event': '생',
-      'policies.title': '정책', 'policies.subtitle': '읽기', 'policy.1.title': '1', 'policy.1.desc': '1.5 주', 'policy.2.title': '2', 'policy.2.desc': '$10', 'policy.3.title': '3', 'policy.3.desc': '결제', 'policy.4.title': '4', 'policy.4.desc': 'X', 'policy.5.title': '5', 'policy.5.desc': 'X', 'policy.6.title': '6', 'policy.6.desc': 'X', 'policy.7.title': '7', 'policy.7.desc': 'X', 'policies.decline': '취소', 'policies.accept': '수락',
-      'announce.title': 'X', 'announce.text': '.', 'quote.title': '견적', 'quote.subtitle': 'X',
-      'form.name': '이름', 'form.name.ph': '이름', 'form.phone': 'P', 'form.phone.ph': 'P', 'form.email': 'E', 'form.email.ph': 'E', 'form.eventType': 'E', 'form.eventType.ph': 'E', 'form.eventType.boda': 'B', 'form.eventType.corporativo': 'C', 'form.eventType.bautizo': 'B', 'form.eventType.cumple': 'C', 'form.eventType.fiesta': 'F', 'form.eventType.reunion': 'R', 'form.eventType.otro': 'O', 'form.guests': 'G', 'form.guests.ph': 'G', 'form.date': 'D', 'form.services': 'S', 'form.service1': '1', 'form.service2': '2', 'form.service3': '3', 'form.service4': '4', 'form.service5': '5', 'form.message': 'M', 'form.message.ph': '.', 'form.submit': '전송',
-      'contact.title': 'X', 'contact.subtitle': '.', 'contact.phone': 'P', 'contact.whatsapp': 'W', 'contact.whatsapp.link': 'L', 'contact.email': 'E', 'contact.location': 'L', 'contact.hours': 'H', 'contact.hours.week': 'W', 'contact.hours.sat': 'S',
-      'footer.desc': 'X', 'footer.nav': 'N', 'footer.services': 'S', 'footer.contact': 'C', 'footer.copyright': '©', 'footer.payment': 'P'
+      'footer.payment': '💳 Pagos: Efectivo o tarjeta contra entrega.'
     }
   };
 
